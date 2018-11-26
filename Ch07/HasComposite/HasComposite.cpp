@@ -19,7 +19,7 @@ public:
 	}
 };
 
-class Police : public Gun
+class Police
 {
 private:
 	int handcuffs;		// 소유한 수갑의 수
