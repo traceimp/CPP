@@ -48,7 +48,53 @@ private:
 
 public:
 	TemporaryWorker(const char * name, int pay)
-		:Employee
+		:Employee(name), workTime(0), payPerHour(pay)
+	{}
+
+	void AddWorkTime(int time)	// 일한 시간 추가
+	{
+		workTime += time;
+	}
+
+	int GetPay() const	// 이 달의 급여
+	{
+		return workTime * payPerHour;
+	}
+
+	void ShowSalaryInfo() const
+	{
+		ShowYourName();
+		cout << "salary: " << GetPay() << endl << endl;
+	}
+};
+
+class SalesWorker : public PermanentWorker
+{
+private:
+	int salesResult;	// 월 판매실적
+	double bonusRatio;	// 상여금 비율
+
+public:
+	SalesWorker(const char * name, int money, double ratio)
+		: PermanentWorker(name, money), salesResult(0), bonusRatio(ratio)
+	{}
+
+	void AddSalesResult(int value)
+	{
+		salesResult += value;
+	}
+
+	int GetPay() const
+	{
+		// PermanentWorker의 GetPay 함수 호출
+		return PermanentWorker::GetPay() + (int)(salesResult*bonusRatio);
+	}
+
+	void ShowSalaryInfo() const
+	{
+		ShowYourName();
+		cout << "salary: " << this->GetPay() << endl << endl;	// SalesWorker의 GetPay 함수가 호출됨
+	}
 };
 
 class EmployeeHandler
@@ -67,15 +113,15 @@ public:
 
 	void ShowAllSalaryInfo() const
 	{
-		/*for (int i = 0; i < empNum; i++)
-			empList[i]->ShowYourName();*/
+		for (int i = 0; i < empNum; i++)
+			empList[i]->ShowYourName();
 	}
 
 	void ShowTotalSalary() const
 	{
 		int sum = 0;
-		/*for (int i = 0; i < empNum; i++)
-			sum += empList[i]->GetPay();*/
+		for (int i = 0; i < empNum; i++)
+			sum += empList[i]->GetPay();
 		cout << "salary sum: " << sum << endl;
 	}
 
@@ -91,12 +137,24 @@ int main(void)
 	// 직원관리를 목적으로 설계된 컨트롤 클래스의 객체생성
 	EmployeeHandler handler;
 
-	// 직원 등록
+	// 정규직 등록
 	handler.AddEmployee(new PermanentWorker("KIM", 1000));
 	handler.AddEmployee(new PermanentWorker("LEE", 1500));
-	handler.AddEmployee(new PermanentWorker("JUN", 2000));
 
-	// 이번 달에 지불해야 할 급여의 총합
+	// 임시직 등록
+	TemporaryWorker * alba = new TemporaryWorker("Jung", 700);
+	alba->AddWorkTime(5);	// 5시간 일한 결과 등록
+	handler.AddEmployee(alba);
+
+	// 영업직 등록
+	SalesWorker *seller = new SalesWorker("Hong", 1000, 0.1);
+	seller->AddSalesResult(7000);
+	handler.AddEmployee(seller);
+
+	// 이번달에 지불해야 할 급여의 정보
+	handler.ShowAllSalaryInfo();
+
+	// 이번달에 지불해야 할 급여의 총합
 	handler.ShowTotalSalary();
 
 	return 0;
