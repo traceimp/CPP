@@ -1,0 +1,55 @@
+{
+    // IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
+    // 기존 특성에 대한 설명을 보려면 가리킵니다.
+    // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            // 
+            // 이 밑 부분 파일경로, 파일명을 맞게 고쳐야합니다!
+            // 저는 절대 경로가 편해서 절대 경로로 씁니다.
+            // 
+            // 예)  D:/Git/algorithm/BOJ/2606.exe
+            // 혹은 D:\\Git\\algorithm\\BOJ\\2606.exe
+            // 
+            // 1. /home/your-username/your-project/folder/file.ext편집자가 열어 둔 파일 .
+            // 2. /home/your-username/your-project루트 작업 공간으로 열리는 디렉토리 .
+            
+            // 따라서 각 변수에 대해 다음 값을 갖게됩니다.
+
+            // $ {workspaceFolder} -/home/your-username/your-project
+            // $ {workspaceFolderBasename} -your-project
+            // $ {file} -/home/your-username/your-project/folder/file.ext
+            // $ {relativeFile} -folder/file.ext
+            // $ {fileBasename} -file.ext
+            // $ {fileBasenameNoExtension} -file
+            // $ {fileDirname} -/home/your-username/your-project/folder
+            // $ {fileExtname} -.ext
+            // $ {lineNumber} -5
+            // $ {selectedText} -Text selected in your code editor
+            "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            //
+            // MinGW 경로가 같은지 확인 !
+            // MinGW 설치경로/bin/gdb.exe 입니다.
+            "miDebuggerPath": "D:/MinGW/bin/gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+
+        }
+    ]
+}
